@@ -85,6 +85,7 @@ definitions:
         type: string
         description: URL location for the backup
         pattern: ^https?://
+        example: https://storageaccount.blob.core.windows.net/container/file?sp=rw&st=2024-01-01T10:00:00Z&se=2024-01-01T10:15:00Z&spr=https&sv=2022-11-02&sr=b&sig=...
     required:
       - url
 parameters:
