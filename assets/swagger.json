@@ -18,7 +18,7 @@
   ],
   "securityDefinitions": {
     "azure_auth": {
-      "description": "Azure Active Directory OAuth2 Flow",
+      "description": "Microsoft Entra ID OAuth2 Flow",
       "type": "oauth2",
       "authorizationUrl": "https://login.microsoftonline.com/common/oauth2/authorize",
       "flow": "implicit",
@@ -43,51 +43,125 @@
             "$ref": "#/parameters/resourceName"
           },
           {
-            "name": "parameters",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/ping"
-            },
-            "description": "Parameters to the ping function"
-          },
-          {
             "$ref": "#/parameters/apiVersion"
           }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
         ],
         "responses": {
           "200": {
             "description": "success"
           }
-        },
-        "produces": [
-          "application/json"
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/custombackup": {
+      "post": {
+        "operationId": "backupAction",
+        "description": "Create a backup and return inlined or optionally upload to the URL provided",
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/resourceGroup"
+          },
+          {
+            "$ref": "#/parameters/resourceName"
+          },
+          {
+            "$ref": "#/parameters/apiVersion"
+          },
+          {
+            "name": "parameters",
+            "description": "Parameters to the backup function",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/backup"
+            }
+          }
         ],
         "consumes": [
           "application/json"
-        ]
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customrestore": {
+      "post": {
+        "operationId": "restoreAction",
+        "description": "Restore a backup by using HTTP GET from the provided URL",
+        "parameters": [
+          {
+            "$ref": "#/parameters/subscriptionId"
+          },
+          {
+            "$ref": "#/parameters/resourceGroup"
+          },
+          {
+            "$ref": "#/parameters/resourceName"
+          },
+          {
+            "$ref": "#/parameters/apiVersion"
+          },
+          {
+            "name": "parameters",
+            "description": "Parameters to the backup function",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/restore"
+            }
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "204": {
+            "description": "success"
+          }
+        }
       }
     }
   },
   "definitions": {
-    "ping": {
-      "description": "Parameters for the ping action",
+    "backup": {
+      "description": "Parameters for the backup action",
       "properties": {
-        "pingcontent": {
-          "type": "object",
-          "properties": {
-            "source": {
-              "type": "string",
-              "description": "Source who is pinging"
-            }
-          },
-          "description": "Some data to identofy the source"
-        },
-        "randomproperty": {
+        "url": {
           "type": "string",
-          "description": "some other random property"
+          "description": "URL to HTTP PUT the backup to",
+          "pattern": "^https?://"
         }
       }
+    },
+    "restore": {
+      "description": "Parameters for the restore action",
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "URL to HTTP GET the backup from",
+          "pattern": "^https?://"
+        }
+      },
+      "required": [
+        "url"
+      ]
     }
   },
   "parameters": {
