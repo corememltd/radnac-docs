@@ -62,7 +62,7 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/custombackup": {
       "post": {
         "operationId": "backupAction",
-        "description": "Create a backup and return inlined or optionally upload to the URL provided",
+        "description": "Create a backup by using HTTP PUT from the provided URL",
         "parameters": [
           {
             "$ref": "#/parameters/subscriptionId"
@@ -121,7 +121,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/restore"
+              "$ref": "#/definitions/backup"
             }
           }
         ],
@@ -145,17 +145,7 @@
       "properties": {
         "url": {
           "type": "string",
-          "description": "URL to HTTP PUT the backup to",
-          "pattern": "^https?://"
-        }
-      }
-    },
-    "restore": {
-      "description": "Parameters for the restore action",
-      "properties": {
-        "url": {
-          "type": "string",
-          "description": "URL to HTTP GET the backup from",
+          "description": "URL location for the backup",
           "pattern": "^https?://"
         }
       },
