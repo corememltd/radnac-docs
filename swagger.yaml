@@ -1,0 +1,94 @@
+swagger: '2.0'
+info:
+  version: 2024-01-01-preview
+  title: RADNAC REST API
+  description: Azure REST API
+host: management.azure.com
+schemes:
+  - https
+security:
+  - azure_auth:
+      - user_impersonation
+securityDefinitions:
+  azure_auth:
+    description: Azure Active Directory OAuth2 Flow
+    type: oauth2
+    authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+    flow: implicit
+    scopes:
+      user_impersonation: impersonate your user account
+paths:
+  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customping:
+    post:
+      description: Initiate an ICMP ping to the service(s)
+      parameters:
+        - $ref: '#/parameters/subscriptionId'
+        - $ref: '#/parameters/resourceGroup'
+        - $ref: '#/parameters/resourceName'
+        - name: parameters
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ping'
+          description: Parameters to the ping function
+        - $ref: '#/parameters/apiVersion'
+      responses:
+        '200':
+          description: success
+      produces:
+        - application/json
+      consumes:
+        - application/json
+definitions:
+  ping:
+    description: Parameters for the ping action
+    properties:
+      pingcontent:
+        type: object
+        properties:
+          source:
+            type: string
+            description: Source who is pinging
+        description: Some data to identofy the source
+      randomproperty:
+        type: string
+        description: some other random property
+parameters:
+  subscriptionId:
+    name: subscriptionId
+    description: The subscription ID
+    type: string
+    in: path
+    required: true
+    minLength: 36
+    maxLength: 36
+    pattern: ^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
+  # https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules#microsoftresources
+  resourceGroup:
+    name: resourceGroup
+    description: Resource group name (not case sensitive)
+    type: string
+    in: path
+    required: true
+    minLength: 1
+    maxLength: 90
+    pattern: ^[\w._()-]+(?!\.)$
+  # https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules#microsoftcustomproviders
+  resourceName:
+    name: resourceName
+    description: Resource name (not case sensitive)
+    type: string
+    in: path
+    required: true
+    minLength: 3
+    maxLength: 64
+    pattern: ^[\w._()-]+(?!\.)$
+  # https://learn.microsoft.com/en-us/rest/api/customproviders/
+  apiVersion:
+    name: api-version
+    description: Azure ARM Resource API version
+    type: string
+    in: query
+    required: true
+    enum:
+      - 2018-09-01-preview
