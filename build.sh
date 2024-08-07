@@ -1,6 +1,8 @@
 #!/bin
 
-SWAGGER_JSON=$(mktemp)
+set -eu
+
+SWAGGER=$(mktemp)
 cleanup () {
 	rm -f "$SWAGGER"
 }
