@@ -20,6 +20,7 @@ securityDefinitions:
 paths:
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customping:
     post:
+      operationId: pingAction
       description: Initiate an ICMP ping to the service(s)
       parameters:
         - $ref: '#/parameters/subscriptionId'
