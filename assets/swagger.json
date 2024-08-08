@@ -62,7 +62,7 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/custombackup": {
       "post": {
         "operationId": "backupAction",
-        "description": "Create a backup by using HTTP PUT from the provided URL",
+        "description": "Create and upload a backup to the provided URL",
         "parameters": [
           {
             "$ref": "#/parameters/subscriptionId"
@@ -101,7 +101,7 @@
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customrestore": {
       "post": {
         "operationId": "restoreAction",
-        "description": "Restore a backup by using HTTP GET from the provided URL",
+        "description": "Download and restore a backup from the provided URL",
         "parameters": [
           {
             "$ref": "#/parameters/subscriptionId"
@@ -121,7 +121,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/backup"
+              "$ref": "#/definitions/restore"
             }
           }
         ],
@@ -142,12 +142,79 @@
   "definitions": {
     "backup": {
       "description": "Parameters for the backup action",
+      "type": "object",
       "properties": {
+        "method": {
+          "description": "HTTP method to use to upload backup (the header 'x-ms-blob-type: BlockBlob' will automatically be added for detected Azure Storage Account blob uploads)",
+          "type": "string",
+          "default": "PUT",
+          "enum": [
+            "PUT",
+            "POST"
+          ]
+        },
+        "headers": {
+          "description": "HTTP headers to include with request",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "description": "HTTP header name",
+                "type": "string"
+              },
+              "value": {
+                "description": "HTTP header value",
+                "type": "string"
+              }
+            }
+          }
+        },
         "url": {
           "type": "string",
           "description": "URL location for the backup",
           "pattern": "^https?://",
-          "example": "https://storageaccount.blob.core.windows.net/container/file?sp=rw&st=2024-01-01T10:00:00Z&se=2024-01-01T10:15:00Z&spr=https&sv=2022-11-02&sr=b&sig=..."
+          "example": "https://STORAGEACCOUNT.blob.core.windows.net/CONTAINER/FILE?sp=w&st=2024-01-01T10:00:00Z&se=2024-01-01T10:15:00Z&spr=https&sv=2022-11-02&sr=b&sig=..."
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "restore": {
+      "description": "Parameters for the restore action",
+      "type": "object",
+      "properties": {
+        "method": {
+          "description": "HTTP method to use to download backup",
+          "type": "string",
+          "default": "GET",
+          "enum": [
+            "GET"
+          ]
+        },
+        "headers": {
+          "description": "HTTP headers to include with request",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "description": "HTTP header name",
+                "type": "string"
+              },
+              "value": {
+                "description": "HTTP header value",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "url": {
+          "type": "string",
+          "description": "URL location for the backup",
+          "pattern": "^https?://",
+          "example": "https://STORAGEACCOUNT.blob.core.windows.net/CONTAINER/FILE?sp=r&st=2024-01-01T10:00:00Z&se=2024-01-01T10:15:00Z&spr=https&sv=2022-11-02&sr=b&sig=..."
         }
       },
       "required": [
