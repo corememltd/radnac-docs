@@ -18,7 +18,7 @@ securityDefinitions:
     scopes:
       user_impersonation: impersonate your user account
 paths:
-  /subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/ping:
+  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/ping:
     post:
       operationId: pingAction
       description: Initiate an ICMP ping to the service(s)
@@ -34,7 +34,7 @@ paths:
       responses:
         '200':
           description: success
-  /subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/backup:
+  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/backup:
     post:
       operationId: backupAction
       description: Create and upload a backup to the provided URL
@@ -63,7 +63,7 @@ paths:
           description: destination URL generated an non-2xx response
           schema:
             $ref: '#/definitions/error'
-  /subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/restore:
+  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/restore:
     post:
       operationId: restoreAction
       description: Download and restore a backup from the provided URL
@@ -96,42 +96,39 @@ paths:
 definitions:
   error:
     # https://github.com/AzureExpert/azure-resource-manager-rpc/blob/master/v1.0/common-api-details.md
-    description: Azure error
+    description: The error body contract
     type: object
     properties:
       error:
-        description: Azure proxy error
+        description: The error details for a failed request
         type: object
         properties:
           code:
-            description: Azure proxy error code
+            description: The error type
             type: string
-            enum:
-             - DownstreamEndpointError
           message:
-            description: Azure proxy error message
+            description": The error message
             type: string
           details:
-            description: Azure error details
+            description: The error details
             type: array
             items:
               type: object
               properties:
                 code:
-                  description: Azure Error code
+                  description: The error details code
                   type: string
-                  enum:
-                   - Downstream
                 message:
-                  description: RADNAC error (JSON encoded)
+                  description: The error details message
                   type: string
               required:
                 - code
                 - message
+          innererror:
+            type: object
         required:
           - code
           - message
-          - details
   backup:
     description: Parameters for the backup action
     type: object
