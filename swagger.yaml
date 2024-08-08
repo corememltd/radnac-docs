@@ -55,6 +55,14 @@ paths:
       responses:
         '204':
           description: success
+        '400':
+          description: invalid parameters
+          schema:
+            $ref: '#/definitions/error'
+        '502':
+          description: destination URL generated an non-2xx response
+          schema:
+            $ref: '#/definitions/error'
   /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customrestore:
     post:
       operationId: restoreAction
@@ -77,7 +85,53 @@ paths:
       responses:
         '204':
           description: success
+        '400':
+          description: invalid parameters
+          schema:
+            $ref: '#/definitions/error'
+        '502':
+          description: source URL generated an non-2xx response
+          schema:
+            $ref: '#/definitions/error'
 definitions:
+  error:
+    # https://github.com/AzureExpert/azure-resource-manager-rpc/blob/master/v1.0/common-api-details.md
+    description: Azure error
+    type: object
+    properties:
+      error:
+        description: Azure proxy error
+        type: object
+        properties:
+          code:
+            description: Azure proxy error code
+            type: string
+            enum:
+             - DownstreamEndpointError
+          message:
+            description: Azure proxy error message
+            type: string
+          details:
+            description: Azure error details
+            type: array
+            items:
+              type: object
+              properties:
+                code:
+                  description: Azure Error code
+                  type: string
+                  enum:
+                   - Downstream
+                message:
+                  description: RADNAC error (JSON encoded)
+                  type: string
+              required:
+                - code
+                - message
+        required:
+          - code
+          - message
+          - details
   backup:
     description: Parameters for the backup action
     type: object
