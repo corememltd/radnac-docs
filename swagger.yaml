@@ -18,14 +18,14 @@ securityDefinitions:
     scopes:
       user_impersonation: impersonate your user account
 paths:
-  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customping:
+  /subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/ping:
     post:
       operationId: pingAction
       description: Initiate an ICMP ping to the service(s)
       parameters:
         - $ref: '#/parameters/subscriptionId'
-        - $ref: '#/parameters/resourceGroup'
-        - $ref: '#/parameters/resourceName'
+        - $ref: '#/parameters/resourceGroupName'
+        - $ref: '#/parameters/customRpName'
         - $ref: '#/parameters/apiVersion'
       consumes:
         - application/json
@@ -34,14 +34,14 @@ paths:
       responses:
         '200':
           description: success
-  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/custombackup:
+  /subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/backup:
     post:
       operationId: backupAction
       description: Create and upload a backup to the provided URL
       parameters:
         - $ref: '#/parameters/subscriptionId'
-        - $ref: '#/parameters/resourceGroup'
-        - $ref: '#/parameters/resourceName'
+        - $ref: '#/parameters/resourceGroupName'
+        - $ref: '#/parameters/customRpName'
         - $ref: '#/parameters/apiVersion'
         - name: parameters
           description: Parameters to the backup function
@@ -63,14 +63,14 @@ paths:
           description: destination URL generated an non-2xx response
           schema:
             $ref: '#/definitions/error'
-  /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customrestore:
+  /subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/restore:
     post:
       operationId: restoreAction
       description: Download and restore a backup from the provided URL
       parameters:
         - $ref: '#/parameters/subscriptionId'
-        - $ref: '#/parameters/resourceGroup'
-        - $ref: '#/parameters/resourceName'
+        - $ref: '#/parameters/resourceGroupName'
+        - $ref: '#/parameters/customRpName'
         - $ref: '#/parameters/apiVersion'
         - name: parameters
           description: Parameters to the backup function
@@ -202,8 +202,8 @@ parameters:
     maxLength: 36
     pattern: ^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$
   # https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules#microsoftresources
-  resourceGroup:
-    name: resourceGroup
+  resourceGroupName:
+    name: resourceGroupName
     description: Resource group name (not case sensitive)
     type: string
     in: path
@@ -212,15 +212,14 @@ parameters:
     maxLength: 90
     pattern: ^[\w._()-]+(?!\.)$
   # https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/resource-name-rules#microsoftcustomproviders
-  resourceName:
-    name: resourceName
+  customRpName:
+    name: customrpname
     description: Resource name (not case sensitive)
     type: string
     in: path
     required: true
-    minLength: 3
-    maxLength: 64
-    pattern: ^[\w._()-]+(?!\.)$
+    enum:
+     - public
   # https://learn.microsoft.com/en-us/rest/api/customproviders/
   apiVersion:
     name: api-version
