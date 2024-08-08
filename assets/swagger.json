@@ -28,7 +28,7 @@
     }
   },
   "paths": {
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customping": {
+    "/subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/ping": {
       "post": {
         "operationId": "pingAction",
         "description": "Initiate an ICMP ping to the service(s)",
@@ -37,10 +37,10 @@
             "$ref": "#/parameters/subscriptionId"
           },
           {
-            "$ref": "#/parameters/resourceGroup"
+            "$ref": "#/parameters/resourceGroupName"
           },
           {
-            "$ref": "#/parameters/resourceName"
+            "$ref": "#/parameters/customRpName"
           },
           {
             "$ref": "#/parameters/apiVersion"
@@ -59,7 +59,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/custombackup": {
+    "/subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/backup": {
       "post": {
         "operationId": "backupAction",
         "description": "Create and upload a backup to the provided URL",
@@ -68,10 +68,10 @@
             "$ref": "#/parameters/subscriptionId"
           },
           {
-            "$ref": "#/parameters/resourceGroup"
+            "$ref": "#/parameters/resourceGroupName"
           },
           {
-            "$ref": "#/parameters/resourceName"
+            "$ref": "#/parameters/customRpName"
           },
           {
             "$ref": "#/parameters/apiVersion"
@@ -110,7 +110,7 @@
         }
       }
     },
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Solutions/applications/{resourceName}/customrestore": {
+    "/subscriptions/{subscriptionId}/resourceGroupNames/{resourceGroupName}/providers/Microsoft.CustomProviders/resourceProviders/{customrpname}/restore": {
       "post": {
         "operationId": "restoreAction",
         "description": "Download and restore a backup from the provided URL",
@@ -119,10 +119,10 @@
             "$ref": "#/parameters/subscriptionId"
           },
           {
-            "$ref": "#/parameters/resourceGroup"
+            "$ref": "#/parameters/resourceGroupName"
           },
           {
-            "$ref": "#/parameters/resourceName"
+            "$ref": "#/parameters/customRpName"
           },
           {
             "$ref": "#/parameters/apiVersion"
@@ -309,8 +309,8 @@
       "maxLength": 36,
       "pattern": "^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
     },
-    "resourceGroup": {
-      "name": "resourceGroup",
+    "resourceGroupName": {
+      "name": "resourceGroupName",
       "description": "Resource group name (not case sensitive)",
       "type": "string",
       "in": "path",
@@ -319,15 +319,15 @@
       "maxLength": 90,
       "pattern": "^[\\w._()-]+(?!\\.)$"
     },
-    "resourceName": {
-      "name": "resourceName",
+    "customRpName": {
+      "name": "customrpname",
       "description": "Resource name (not case sensitive)",
       "type": "string",
       "in": "path",
       "required": true,
-      "minLength": 3,
-      "maxLength": 64,
-      "pattern": "^[\\w._()-]+(?!\\.)$"
+      "enum": [
+        "public"
+      ]
     },
     "apiVersion": {
       "name": "api-version",
