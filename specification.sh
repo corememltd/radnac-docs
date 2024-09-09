@@ -2,7 +2,7 @@
 
 set -eu
 
-SOURCE="source/custom-provider.yaml.m4"
+SOURCE="specification/custom-provider.yaml.m4"
 
 BRANCH=$(git branch | sed -n -e 's/^\* // p')
 #[ "$BRANCH" = main ] || { echo this cannot be run on branch main >&2; exit 1; }

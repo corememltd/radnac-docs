@@ -58,4 +58,4 @@ You will require pre-installed:
 
 Generate the usable assets with:
 
-    sh build.sh
+    sh specification.sh
