@@ -64,7 +64,9 @@ Run:
 
 ### Build
 
-...
+On committing and pushing, [GitHub will automatically publish](https://docs.antora.org/antora/latest/publish-to-github-pages/) otherwise to work with local builds run:
+
+    antora antora-playbook.yml
 
 ## API
 
