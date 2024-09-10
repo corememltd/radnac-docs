@@ -1,4 +1,4 @@
-The [RADIUS based Network Access Control (RADNAC)](https://radnac.com/) deployment for Azure: Documentation.
+Documentation Project for [RADNAC](https://radnac.com/).
 
 RADAC provides a native-esque Azure experience by being deployed as a [Managed Application](https://learn.microsoft.com/en-us/azure/azure-resource-manager/managed-applications/overview) through the [Azure Marketplace](https://azuremarketplace.microsoft.com/) and integrating tightly with [Application Insights](https://learn.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview).
 
@@ -47,14 +47,35 @@ As an example, of using the API, to perform a 'restore' operation, use:
 
 # Development
 
-## Pre-flight
+## Documentation
+
+[Antora](https://antora.org/) is used to generate documentation, which means AsciiDoc.
+
+### Pre-flight
+
+You will require pre-installed:
+
+ * Node.js LTS
+
+Run:
+
+    npm install
+    alias antora='npx antora'
+
+### Build
+
+...
+
+## API
+
+### Pre-flight
 
 You will require pre-installed:
 
  * `m4`
  * `yq`
 
-## Build
+### Build
 
 Generate the usable assets with:
 
