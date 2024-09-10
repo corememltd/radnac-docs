@@ -30,6 +30,11 @@ jobs:
       run: npm install
     - name: Generate Site
       run: npx antora antora-playbook.yml
+    - name: Modify permissions
+      # https://github.com/actions/deploy-pages/issues/303#issuecomment-2204647531
+      run: |
+        find build/site -type d -print0 | xargs -0 chmod a+rx
+        find build/site -type f -print0 | xargs -0 chmod a+r
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
@@ -38,4 +43,5 @@ jobs:
         include-hidden-files: true
         if-no-files-found: error
     - name: Deploy to GitHub Pages
+      id: deployment
       uses: actions/deploy-pages@v4
