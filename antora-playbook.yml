@@ -1,9 +1,15 @@
 site:
   title: The RADIUS based Network Access Control (RADNAC) for Azure
   url: https://docs.radnac.com
+  start_page: radnac:ROOT:index.adoc
+
+urls:
+  html_extension_style: indexify
+
 content:
   sources:
   - url: .
+
 ui:
   bundle:
     url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
@@ -14,3 +20,6 @@ ui:
       static_files:
       - .nojekyll
   - path: .nojekyll
+
+output:
+  clean: true
