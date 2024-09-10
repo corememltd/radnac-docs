@@ -1,7 +1,6 @@
 site:
   title: The RADIUS based Network Access Control (RADNAC) for Azure
   url: https://docs.radnac.com
-  start_page: radnac::index.adoc
 content:
   sources:
   - url: .
