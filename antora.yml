@@ -1,5 +1,7 @@
 name: radnac
 title: RADNAC
-version: 2024.0.0
+version: 2024.00.00
 prerelease: alpha
 start_page: ROOT:index.adoc
+nav:
+- modules/ROOT/nav.adoc

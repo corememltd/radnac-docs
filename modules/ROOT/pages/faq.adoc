@@ -1,0 +1,4 @@
+= FAQ
+
+Is there an API::
+Yes, https://github.com/corememltd/radnac-docs#usage[consult the usage,window=_blank] documentation on how to use and where to https://validator.swagger.io/?url=https://raw.githubusercontent.com/corememltd/radnac-docs/main/specification/user/managed-application/2024-01-01-preview.yaml[obtain a OpenAPI 2.0 (Swagger) definition,window=_blank].

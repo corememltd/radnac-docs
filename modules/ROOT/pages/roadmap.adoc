@@ -1,0 +1,7 @@
+= Roadmap
+
+Items listed here in no particular order are:
+
+ * https://datatracker.ietf.org/doc/html/draft-ietf-radext-radiusdtls-bis[RADIUS (D)TLS,window=_blank] (aka RADSEC)
+ * https://datatracker.ietf.org/doc/html/draft-ietf-radext-radiusv11[RADIUSv1.1,window=_blank]
+ * CoA/Disconnect[https://datatracker.ietf.org/doc/html/rfc5176,window=_blank]

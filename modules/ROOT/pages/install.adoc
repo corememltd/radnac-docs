@@ -1,0 +1,41 @@
+= Installing
+
+== Planning
+
+There are some considerations when deploying the service.
+
+Location::
+As a rule of thumb you should choose a location that is placed on close to your RADIUS clients and servers. You may wish instead to pick an alternative based on your local compliance requirements or to choose a location that is https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview[zonal,window=_blank] to <<reliability,obtain a better service SLA>>.
+
+[#reliability]
+Reliability::
+The service utilises VMs that https://azure.microsoft.com/files/Features/Reliability/AzureResiliencyInfographic.pdf[Azure commits to a _monthly_ SLA,window=_blank] depending on the deployment used:
++
+--
+* single VM delivers https://uptime.is/three-nines[99.9% ('three nines'),window=_blank]
+* two VMs deployed to the same datacenter (ie. non-zonal region) delivers https://uptime.is/99.95[99.95% ('three-and-a-half nines'),window=_blank]
+* two VMs deployed to different zones in the the same region delivers https://uptime.is/four-nines[99.99% ('four nines'),window=_blank]
+
+WARNING: Running two VMs will double your Azure infrastructure runnings costs for the service.
+--
+
+Networking::
+The majority of RADIUS traffic is transported https://datatracker.ietf.org/doc/html/draft-ietf-radext-deprecating-radius#name-information-is-sent-in-clea[not using TLS to protect it,window=_blank] so it is _strongly_ recommended that you preconfigure an https://learn.microsoft.com/en-us/azure/vpn-gateway/vpn-gateway-about-vpngateways[Azure VPN Gateway,window=_blank] to allow on-premise RADIUS clients to communicate with the private IPs of the service securely.
+
+Public IPs::
+For production deployments, it is _strongly_ recommended you preallocate _static_ standard regional SKU public address(es) so the service may continue to use those address(es) following an upgrade.
++
+WARNING: Not preallocating IPs exposes you potentially to having to reconfigure _every_ RADIUS client and server to use the new (dynamic) public address(es) Azure assigns you.
+
+802.1X with EAP-TTLS/PAP::
++
+If you plan to use 802.1X (eg. wired or WPA-Enterprise wireless) networking you must provide access to an https://learn.microsoft.com/en-gb/azure/key-vault/certificates/about-certificates[Azure Key Vault certificate,window=_blank] the service can use as a server certificate.
++
+TIP: You can use a https://letsencrypt.org/[Let's Encrypt,window=_blank] issued certificate by using automated tooling such as https://github.com/shibayan/keyvault-acmebot/[Key Vault Acmebot,window=_blank]
++
+WARNING: You are responsible for configuring your device supplicants to validate the certificate the service presents, failure to do so exposes you to MitM attacks.
+
+== Requirements
+
+. at least https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles/general#contributor[Contributor,window=_blank] access to an Azure subscription
+. list of your RADIUS client (and server) IP addresses and shared secrets
